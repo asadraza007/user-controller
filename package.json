@@ -1,0 +1,27 @@
+{
+  "name": "user-controller",
+  "version": "1.0.0",
+  "description": "nodejs User Controller with Authentication",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/asadraza007/user-controller.git"
+  },
+  "keywords": [
+    "user",
+    "controller",
+    "nodejs",
+    "user",
+    "authentication",
+    "express authentication"
+  ],
+  "author": "Asad Raza",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
