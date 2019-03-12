@@ -1,4 +1,3 @@
 # Commands  
-1- npm install  
-2- node server.js  
+1- node server.js or npm start  
 

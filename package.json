@@ -22,6 +22,5 @@
   "author": "Asad Raza",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.16.4"
   }
 }
