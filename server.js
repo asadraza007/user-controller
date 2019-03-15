@@ -1,31 +1,48 @@
-var Http = require("http");
+var express = require("express");
+var bodyParser = require("body-parser")
+var expressSession = require("express-session");
+var passport = require("passport");
+var authenticate = require("./authentication");
 
-var server = Http.createServer((req,res)=>{
-    var authHeader = req.headers.authorization;
-    if(!authHeader){
-        res.setHeader('WWW-Authenticate', 'Basic');
-        res.statusCode = 401;
-        res.statusMessage = "You are not authenticated!";
-        res.end();
-    } else {
-        // beacute authheader contain  inform of "basic username:password"
-        var auth = new Buffer(authHeader.split(' ')[1],"base64").toString().split(':');
-        var username = auth[0];
-        var password = auth[1];
 
-        if(username === "admin" && password==="admin"){
-            res.statusCode = 200;
-            res.end("Authentication Successfull");
-        } else {
-            res.setHeader('WWW-Authenticate', 'Basic');
-            res.statusCode = 401;
-            res.statusMessage = "You are not authenticated!";
-            res.end();    
-        }
-    }
-    res.status = 200;
+var server = express();
+server.use(expressSession({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { maxAge: 6000 }
+  }))
+
+server.use(bodyParser.json());
+server.use(passport.initialize());
+server.use(passport.session());
+
+
+function auth (req,res, next){
+    console.log(req.user)
+    if(!req.user){
+        res.statusCode = 403;
+        res.end("Authentication is required");
+    }else{
+        next();
+    } 
+}
+
+
+
+server.post("/",passport.authenticate("local"),(req,res)=>{
+    res.statusCode = 200;
     res.end("success");
-}); 
+})
+
+server.use(auth);
+
+
+server.get("/",(req,res,next)=>{
+    res.statusCode = 200;
+    res.end("success ");
+})
+
 
 server.listen(3000,"localhost",()=>{
     console.log("server is listening on localhost:3000")
